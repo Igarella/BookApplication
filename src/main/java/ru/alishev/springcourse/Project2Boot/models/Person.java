@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,15 +31,17 @@ public class Person implements Serializable {
     @Column(name = "birth_date")
     private int birthDate;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+    private List<Book> books;
+
     public List<Book> getBooks() {
         return books;
     }
-
+    @Transactional
     public void setBooks(List<Book> books) {
         this.books = books;
     }
-    @OneToMany(mappedBy = "owner")
-    private List<Book> books;
+
 
 //    @NotEmpty(message = "Email should not be empty")
 //    @Email(message = "Email should be valid")
@@ -75,5 +78,15 @@ public class Person implements Serializable {
 
     public void setBirthDate(int birthDate) {
         this.birthDate = birthDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", birthDate=" + birthDate +
+//                ", books=" + books +
+                '}';
     }
 }

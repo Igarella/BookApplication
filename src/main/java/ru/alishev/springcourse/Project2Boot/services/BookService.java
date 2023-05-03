@@ -24,20 +24,17 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class BookService {
     private final BookRepository bookRepository;
-//    private final PeopleRepository peopleRepository;
-
     @PersistenceContext
     private EntityManager entityManager;
-
 
     public void detachObject(Object o) {
         entityManager.detach(o);
     }
 
     public static void main(String[] args) {
-        long date = new Date(2023, 03, 28).getTime();
-        long date1 = new Date(2023,03,18).getTime();
-        System.out.println(date-date1);
+
+
+
     }
     @Autowired
     public BookService(BookRepository bookRepository, PeopleRepository peopleRepository) {

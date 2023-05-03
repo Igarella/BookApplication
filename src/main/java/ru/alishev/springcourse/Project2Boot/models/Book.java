@@ -5,17 +5,19 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Book")
-@Getter
-@Setter
+@Data
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +35,16 @@ public class Book implements Serializable {
     @Column(name = "year")
     private int year;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
     @Column(name = "assigned_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date assignedAt;
+
+    @OneToMany(mappedBy = "book")
+    private List<Author> authors;
 
     @Transient
     private boolean isOutOfDAte;
@@ -98,9 +103,12 @@ public class Book implements Serializable {
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", name='" + title + '\'' +
+                ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", year=" + year +
+//                ", owner=" + owner +
+                ", assignedAt=" + assignedAt +
+                ", isOutOfDAte=" + isOutOfDAte +
                 '}';
     }
 }
