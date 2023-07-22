@@ -1,14 +1,15 @@
-package shpilevsky.core.impl.spring.repository;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 
-@Component
+@NoRepositoryBean
 @Transactional
 public class RepositorySpring<E extends BaseEntity, ID extends Serializable>
         extends SimpleJpaRepository<E, ID>

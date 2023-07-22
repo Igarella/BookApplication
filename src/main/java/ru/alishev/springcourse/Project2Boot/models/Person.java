@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.springframework.transaction.annotation.Transactional;
-import shpilevsky.core.impl.spring.repository.BaseEntity;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.BaseEntity;
 
 import java.io.Serializable;
 import java.util.List;

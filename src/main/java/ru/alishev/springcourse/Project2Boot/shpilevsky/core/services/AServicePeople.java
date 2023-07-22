@@ -1,8 +1,8 @@
-package shpilevsky.core.services;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.services;
 
 import ru.alishev.springcourse.Project2Boot.models.Book;
 import ru.alishev.springcourse.Project2Boot.models.Person;
-import shpilevsky.lib.IDataStorage;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.IDataStorage;
 
 import java.util.List;
 

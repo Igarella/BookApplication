@@ -10,18 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.Project2Boot.models.Book;
 import ru.alishev.springcourse.Project2Boot.models.Person;
-import ru.alishev.springcourse.Project2Boot.repositories.RepositoryBook;
-import ru.alishev.springcourse.Project2Boot.repositories.RepositoryPeople;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.conditions.CdtsBook;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.IDataStorage;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.PredicateField;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.SortType;
 
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 public class ServiceBook {
-    private final RepositoryBook repositoryBook;
+    private final IDataStorage<Book, Integer> repositoryBook;
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -35,33 +35,31 @@ public class ServiceBook {
 
     }
     @Autowired
-    public ServiceBook(RepositoryBook repositoryBook, RepositoryPeople repositoryPeople) {
+    public ServiceBook(IDataStorage<Book, Integer> repositoryBook) {
         this.repositoryBook = repositoryBook;
-//        this.peopleRepository = peopleRepository;
     }
 
     public List<Book> findAll() {
-        return repositoryBook.findAll();
+        return repositoryBook.getAll();
     }
     public Book findOne(int id) {
-        Optional<Book> foundBook = repositoryBook.findById(id);
-        return foundBook.orElse(null);
+        return repositoryBook.findFirst(CdtsBook.ONE_BY_ID.apply(id));
     }
 
     @Transactional
     public void save(Book book) {
-        repositoryBook.save(book);
+        repositoryBook.add(book);
     }
 
     @Transactional
     public void update(int id, Book updatedBook) {
         updatedBook.setId(id);
-        repositoryBook.save(updatedBook);
+        repositoryBook.add(updatedBook);
     }
 
     @Transactional
     public void delete(int id) {
-        repositoryBook.deleteById(id);
+        repositoryBook.delete(CdtsBook.ONE_BY_ID.apply(id));
     }
 
     public Person getBookOwnerByBookId(int id) {
@@ -71,7 +69,7 @@ public class ServiceBook {
     }
 
     public List<Book> getBooksByOwnerId(int id) {
-        List<Book> ownerBooks = repositoryBook.findBooksByOwnerId(id);
+        List<Book> ownerBooks = repositoryBook.find(CdtsBook.MANY_BY_OWNER.apply(id));
         for (Book ownerBook : ownerBooks) {
             isOutOfDate(ownerBook);
         }
@@ -99,20 +97,22 @@ public class ServiceBook {
 //        return bookRepository.findAll(pageable);
 //    }
 
-    public Page<Book> findAll(Pageable pageable) {
+    // todo в dSSpring
+    /*public Page<Book> findAll(Pageable pageable) {
 //        Pageable pageable1 = PageRequest.of(pageable, Sort.by(Sort.Direction.ASC,"year"));
 //        Sort sort = Sort.by(Sort.Direction.ASC, "year");
         return repositoryBook.findAll(pageable);
-    }
+    }*/
 
-    public List<Book> findAll(Sort sort) {
-//        Pageable pageable1 = PageRequest.of(pageable, Sort.by(Sort.Direction.ASC,"year"));
-//        Sort sort = Sort.by(Sort.Direction.ASC, "year");
-        return repositoryBook.findAll(sort);
+    public List<Book> findAll(PredicateField<Book> condition, Sort.Direction sortDirection)
+    {
+        List<Book> list = repositoryBook.find(condition,
+                sortDirection == Sort.Direction.ASC ? SortType.ASC : SortType.DESC);
+        return list;
     }
 
     public Book searchBook(String title) {
-       return repositoryBook.findByTitleStartingWith(title);
+       return repositoryBook.findFirst(CdtsBook.MANY_STARTING_TITLE_WITH.apply(title));
     }
 
 

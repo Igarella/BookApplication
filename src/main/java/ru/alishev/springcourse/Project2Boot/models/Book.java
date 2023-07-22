@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.BaseEntity;
 
 
 import java.io.Serializable;
@@ -18,7 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "Book")
 @Data
-public class Book implements Serializable {
+public class Book extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

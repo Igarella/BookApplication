@@ -14,6 +14,7 @@ import ru.alishev.springcourse.Project2Boot.models.Book;
 import ru.alishev.springcourse.Project2Boot.models.Person;
 import ru.alishev.springcourse.Project2Boot.services.ServiceBook;
 import ru.alishev.springcourse.Project2Boot.services.ServicePeople;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.conditions.CdtsBook;
 
 @Controller
 @RequestMapping("/books")
@@ -34,15 +35,14 @@ public class ControllerBook {
         String booksPerPage = request.getParameter("books_per_page");
         boolean sortByYear = Boolean.parseBoolean(request.getParameter("sort_by_year"));
         if (page == null || booksPerPage == null) {
-            if (sortByYear) {
-                Sort sort = Sort.by(Sort.Direction.ASC, "year");
-                model.addAttribute("books", serviceBook.findAll(sort));
+            //if (sortByYear) {
+                model.addAttribute("books", serviceBook.findAll(CdtsBook.ALL_YEAR.apply(), Sort.Direction.ASC));
                 return "books/index";
-            }
-            model.addAttribute("books", serviceBook.findAll());
+            //}
+            //model.addAttribute("books", serviceBook.findAll());
         } else {
             Pageable pageable = PageRequest.of(Integer.parseInt(page), Integer.parseInt(booksPerPage));
-            model.addAttribute("books", serviceBook.findAll(pageable));
+            model.addAttribute("books", serviceBook.findAll());
         }
         return "books/index";
     }
@@ -112,7 +112,7 @@ public class ControllerBook {
     public String bookPagination(@PathVariable Integer pageNumber, @PathVariable Integer pageSize, Model model) {
         Sort sort = Sort.by(Sort.Direction.ASC, "year");
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        model.addAttribute("books", serviceBook.findAll(pageable));
+        model.addAttribute("books", serviceBook.findAll());
         return "books/index";
     }
 

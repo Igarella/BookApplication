@@ -1,10 +1,11 @@
-package shpilevsky.core.impl.spring.services;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services;
 
 import org.springframework.transaction.annotation.Transactional;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.services.AServicePeople;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.IDataStorage;
 import ru.alishev.springcourse.Project2Boot.models.Book;
 import ru.alishev.springcourse.Project2Boot.models.Person;
-import shpilevsky.core.services.AServicePeople;
-import shpilevsky.lib.IDataStorage;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,8 @@ public class ServicePeople extends AServicePeople
     @Override
     public Person findOne(int id)
     {
-        Optional<Person> foundPerson = repositoryPerson.findFirst(person -> person.getId() == id);
-        return foundPerson.orElse(null);
+        Person foundPerson = repositoryPerson.findFirst(person -> person.getId() == id);
+        return foundPerson;
     }
 
     @Override

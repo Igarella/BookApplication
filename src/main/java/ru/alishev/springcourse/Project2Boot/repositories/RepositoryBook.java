@@ -4,11 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ru.alishev.springcourse.Project2Boot.models.Book;
 
 import java.util.List;
 
-public interface RepositoryBook extends JpaRepository<Book, Integer> {
+public interface RepositoryBook{// extends JpaRepository<Book, Integer> {
 
 
     List<Book> findBooksByOwnerId(int id);

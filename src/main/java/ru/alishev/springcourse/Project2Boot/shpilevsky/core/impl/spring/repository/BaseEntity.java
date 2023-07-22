@@ -1,10 +1,9 @@
-package shpilevsky.core.impl.spring.repository;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository;
 
 import jakarta.persistence.Transient;
 
 public abstract class BaseEntity
 {
-    @Transient
     private Boolean deleted;
 
     public Boolean getDeleted() {

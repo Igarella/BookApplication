@@ -10,6 +10,7 @@ import ru.alishev.springcourse.Project2Boot.models.Book;
 import ru.alishev.springcourse.Project2Boot.models.Person;
 import ru.alishev.springcourse.Project2Boot.services.ServiceBook;
 import ru.alishev.springcourse.Project2Boot.services.ServicePeople;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.conditions.CdtsPerson;
 import ru.alishev.springcourse.Project2Boot.util.PersonValidator;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class ControllerPeople {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("book") Book book) {
-        model.addAttribute("person", servicePeople.findOne(id));
+        model.addAttribute("person", servicePeople.findOne(CdtsPerson.ONE_BY_ID.apply(id)));
         List<Book> bookList = serviceBook.getBooksByOwnerId(id);
         if (bookList.isEmpty()) {
             model.addAttribute("emptys", "Человек пока не взял ни одной книги");
@@ -71,7 +72,7 @@ public class ControllerPeople {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", servicePeople.findOne(id));
+        model.addAttribute("person", servicePeople.findOne(CdtsPerson.ONE_BY_ID.apply(id)));
         return "people/edit";
     }
 
@@ -87,7 +88,7 @@ public class ControllerPeople {
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        servicePeople.delete(id);
+        servicePeople.delete(CdtsPerson.ONE_BY_ID.apply(id));
         return "redirect:/people";
     }
 }
