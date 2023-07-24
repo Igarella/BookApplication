@@ -1,7 +1,6 @@
-package ru.alishev.springcourse.Project2Boot.shpilevsky.lib;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 

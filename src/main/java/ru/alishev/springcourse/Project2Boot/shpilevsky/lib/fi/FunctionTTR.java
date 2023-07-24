@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.Project2Boot.shpilevsky.lib;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.lib.fi;
 
 @FunctionalInterface
 public interface FunctionTTR<T, T2, R>

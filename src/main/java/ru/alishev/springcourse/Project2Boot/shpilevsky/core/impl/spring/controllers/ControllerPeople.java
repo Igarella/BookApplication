@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.Project2Boot.controllers;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,11 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.alishev.springcourse.Project2Boot.models.Book;
-import ru.alishev.springcourse.Project2Boot.models.Person;
-import ru.alishev.springcourse.Project2Boot.services.ServiceBook;
-import ru.alishev.springcourse.Project2Boot.services.ServicePeople;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.conditions.CdtsPerson;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Person;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions.CdtsBook;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServiceBookSpring;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServicePersonSpring;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions.CdtsPerson;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
 import ru.alishev.springcourse.Project2Boot.util.PersonValidator;
 
 import java.util.List;
@@ -22,33 +24,37 @@ import java.util.List;
 @RequestMapping("/people")
 public class ControllerPeople {
 
-    private final ServicePeople servicePeople;
-    private final ServiceBook serviceBook;
+    private final ServicePersonSpring servicePersonSpring;
+    private final ServiceBookSpring serviceBookSpring;
     private PersonValidator personValidator;
 
     @Autowired
-    public ControllerPeople(ServicePeople servicePeople, ServiceBook serviceBook, PersonValidator personValidator) {
-        this.servicePeople = servicePeople;
-        this.serviceBook = serviceBook;
+    public ControllerPeople(ServicePersonSpring servicePersonSpring,
+                            ServiceBookSpring serviceBookSpring,
+                            PersonValidator personValidator) {
+        this.servicePersonSpring = servicePersonSpring;
+        this.serviceBookSpring = serviceBookSpring;
         this.personValidator = personValidator;
     }
 
     @GetMapping()
     public String index(Model model) {
-        System.out.println(model.addAttribute("people", servicePeople.findAll()));
+        System.out.println(model.addAttribute("people", servicePersonSpring.findAll()));
 
         return "people/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("book") Book book) {
-        model.addAttribute("person", servicePeople.findOne(CdtsPerson.ONE_BY_ID.apply(id)));
-        List<Book> bookList = serviceBook.getBooksByOwnerId(id);
-        if (bookList.isEmpty()) {
+        model.addAttribute("person", servicePersonSpring.findOne(CdtsPerson.ONE_BY_ID.apply(id)));
+
+        List<IBook> ownerBooks = serviceBookSpring.find(CdtsBook.MANY_BY_OWNER.apply(id));
+        ownerBooks.removeIf(IBook::isOutOfDate);
+
+        if (ownerBooks.isEmpty()) {
             model.addAttribute("emptys", "Человек пока не взял ни одной книги");
         } else {
-            model.addAttribute("books", bookList);
-
+            model.addAttribute("books", ownerBooks);
         }
         return "people/show";
     }
@@ -66,13 +72,13 @@ public class ControllerPeople {
         if (bindingResult.hasErrors())
             return "people/new";
 
-        servicePeople.save(person);
+        servicePersonSpring.save(person);
         return "redirect:/people";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", servicePeople.findOne(CdtsPerson.ONE_BY_ID.apply(id)));
+        model.addAttribute("person", servicePersonSpring.findOne(CdtsPerson.ONE_BY_ID.apply(id)));
         return "people/edit";
     }
 
@@ -82,13 +88,13 @@ public class ControllerPeople {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors())
             return "people/edit";
-        servicePeople.update(id, person);
+        servicePersonSpring.update(id, person);
         return "redirect:/people";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        servicePeople.delete(CdtsPerson.ONE_BY_ID.apply(id));
+        servicePersonSpring.delete(CdtsPerson.ONE_BY_ID.apply(id));
         return "redirect:/people";
     }
 }

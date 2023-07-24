@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.Project2Boot.controllers;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -10,23 +10,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.alishev.springcourse.Project2Boot.models.Book;
-import ru.alishev.springcourse.Project2Boot.models.Person;
-import ru.alishev.springcourse.Project2Boot.services.ServiceBook;
-import ru.alishev.springcourse.Project2Boot.services.ServicePeople;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.conditions.CdtsBook;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Person;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServiceBookSpring;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServicePersonSpring;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions.CdtsBook;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
 
 @Controller
 @RequestMapping("/books")
 public class ControllerBook {
 
-    private final ServiceBook serviceBook;
-    private final ServicePeople servicePeople;
+    private final ServiceBookSpring serviceBookSpring;
+    private final ServicePersonSpring servicePersonSpring;
 
     @Autowired
-    public ControllerBook(ServiceBook serviceBook, ServicePeople servicePeople) {
-        this.serviceBook = serviceBook;
-        this.servicePeople = servicePeople;
+    public ControllerBook(ServiceBookSpring serviceBookSpring, ServicePersonSpring servicePersonSpring) {
+        this.serviceBookSpring = serviceBookSpring;
+        this.servicePersonSpring = servicePersonSpring;
     }
 
     @GetMapping()
@@ -36,32 +37,37 @@ public class ControllerBook {
         boolean sortByYear = Boolean.parseBoolean(request.getParameter("sort_by_year"));
         if (page == null || booksPerPage == null) {
             //if (sortByYear) {
-                model.addAttribute("books", serviceBook.findAll(CdtsBook.ALL_YEAR.apply(), Sort.Direction.ASC));
+                model.addAttribute("books",
+                        serviceBookSpring.findAll(CdtsBook.ALL_YEAR.apply(), Sort.Direction.ASC));
                 return "books/index";
             //}
             //model.addAttribute("books", serviceBook.findAll());
         } else {
             Pageable pageable = PageRequest.of(Integer.parseInt(page), Integer.parseInt(booksPerPage));
-            model.addAttribute("books", serviceBook.findAll());
+            model.addAttribute("books", serviceBookSpring.findAll());
         }
         return "books/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
-        model.addAttribute("book", serviceBook.findOne(id));
-        Person owner = serviceBook.getBookOwnerByBookId(id);
-        if (owner != null) {
-            model.addAttribute("owner", owner);
-        } else {
-            model.addAttribute("people", servicePeople.findAll());
+        IBook book = serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
+        model.addAttribute("book", book);
+        if (book != null)
+        {
+            Person owner = (Person) book.getOwner();
+            if (owner != null)
+                model.addAttribute("owner", owner);
+            else
+                model.addAttribute("people", servicePersonSpring.findAll());
         }
+
         return "books/show";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("book", serviceBook.findOne(id));
+        model.addAttribute("book", serviceBookSpring.find(CdtsBook.ONE_BY_ID.apply(id)));
         return "books/edit";
     }
 
@@ -71,7 +77,7 @@ public class ControllerBook {
         if (bindingResult.hasErrors())
             return "books/edit";
 
-        serviceBook.update(id, book);
+        serviceBookSpring.update(id, book);
         return "redirect:/books";
     }
 
@@ -86,25 +92,31 @@ public class ControllerBook {
         if (bindingResult.hasErrors())
             return "books/new";
 
-        serviceBook.save(book);
+        serviceBookSpring.save(book);
         return "redirect:/books";
     }
 
     @PatchMapping("/{id}/assign")
-    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
-        serviceBook.assign(id, selectedPerson);
+    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson)
+    {
+        IBook book = serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
+        if (book != null)
+            serviceBookSpring.assign(book, selectedPerson);
         return "redirect:/books/" + id;
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        serviceBook.delete(id);
+        serviceBookSpring.delete(CdtsBook.ONE_BY_ID.apply(id));
         return "redirect:/books";
     }
 
     @PatchMapping("/{id}/release")
-    public String release(@PathVariable("id") int id) {
-        serviceBook.release(id);
+    public String release(@PathVariable("id") int id)
+    {
+        IBook book = serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
+        if (book != null)
+            serviceBookSpring.release(book);
         return "redirect:/books/" + id;
     }
 
@@ -112,7 +124,7 @@ public class ControllerBook {
     public String bookPagination(@PathVariable Integer pageNumber, @PathVariable Integer pageSize, Model model) {
         Sort sort = Sort.by(Sort.Direction.ASC, "year");
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        model.addAttribute("books", serviceBook.findAll());
+        model.addAttribute("books", serviceBookSpring.findAll());
         return "books/index";
     }
 
@@ -123,7 +135,7 @@ public class ControllerBook {
 
     @PostMapping("/search")
     public String searchBook(Model model, @ModelAttribute("book") Book book) {
-        Book searchBook = serviceBook.searchBook(book.getTitle());
+        IBook searchBook = serviceBookSpring.findFirst(CdtsBook.ONE_BY_TITLE.apply(book.getTitle()));
         if (searchBook != null) {
             if (searchBook.getOwner() != null) {
                 model.addAttribute("owner", searchBook);

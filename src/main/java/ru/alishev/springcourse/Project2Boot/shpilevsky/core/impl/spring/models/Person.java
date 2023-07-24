@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.Project2Boot.models;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models;
 
 
 import jakarta.persistence.*;
@@ -6,9 +6,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.springframework.transaction.annotation.Transactional;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.BaseEntity;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IPerson;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,12 +17,12 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Person")
-public class Person extends BaseEntity implements Serializable {
+public class Person extends ABaseEntity implements IPerson
+{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
@@ -31,22 +32,6 @@ public class Person extends BaseEntity implements Serializable {
     @Min(value = 0, message = "Age should be greater than 0")
     @Column(name = "year")
     private int birthDate;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
-    private List<Book> books;
-
-    public List<Book> getBooks() {
-        return books;
-    }
-    @Transactional
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-
-//    @NotEmpty(message = "Email should not be empty")
-//    @Email(message = "Email should be valid")
-//    private String email;
 
     public Person() {
 

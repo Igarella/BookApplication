@@ -2,8 +2,8 @@ package ru.alishev.springcourse.Project2Boot.dao;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import ru.alishev.springcourse.Project2Boot.models.Book;
-import ru.alishev.springcourse.Project2Boot.models.Person;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Person;
 
 import java.util.List;
 

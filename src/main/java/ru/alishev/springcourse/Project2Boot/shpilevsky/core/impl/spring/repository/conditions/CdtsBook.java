@@ -1,17 +1,19 @@
-package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.conditions;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
-import ru.alishev.springcourse.Project2Boot.models.Book;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.FunctionTTTR;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.PredicateField;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.fi.FunctionTTTR;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate.PredicateField;
 
 public enum CdtsBook {
     ONE_BY_ID("id", (cb, val, valToCompare) -> cb.equal(val, valToCompare)),
     MANY_BY_OWNER("owner", (cb, val, valToCompare) -> cb.equal(val, valToCompare)),
     ALL_YEAR("year", (cb, val, valToCompare) -> cb.isNotNull(val)),
-
+    ONE_BY_TITLE("title",
+            (cb, val, valToCompare) -> cb.equal(val, valToCompare)),
     MANY_STARTING_TITLE_WITH("title",
                         (cb, val, valToCompare) -> cb.like(val, valToCompare+"%"));
 
@@ -19,11 +21,11 @@ public enum CdtsBook {
     private String fieldName;
     private FunctionTTTR<CriteriaBuilder, Expression, Object, Predicate> consumer;
 
-    public PredicateField<Book> apply()
+    public <E extends IBook> PredicateField<E> apply()
     {
         return new PredicateField<>(fieldName, (cb, val) -> consumer.apply(cb, val, null));
     }
-    public PredicateField<Book> apply(Object valToCompare)
+    public <E extends IBook> PredicateField<E> apply(Object valToCompare)
     {
         return new PredicateField<>(fieldName, (cb, val) -> consumer.apply(cb, val, valToCompare));
     }

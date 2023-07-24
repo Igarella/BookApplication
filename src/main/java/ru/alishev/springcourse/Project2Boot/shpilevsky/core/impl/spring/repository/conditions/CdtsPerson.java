@@ -1,11 +1,11 @@
-package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.conditions;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
-import ru.alishev.springcourse.Project2Boot.models.Person;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.FunctionTTTR;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.PredicateField;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IPerson;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.fi.FunctionTTTR;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate.PredicateField;
 
 public enum CdtsPerson
 {
@@ -19,7 +19,7 @@ public enum CdtsPerson
     private String fieldName;
     private FunctionTTTR<CriteriaBuilder, Expression, Object, Predicate> consumer;
 
-    public PredicateField<Person> apply(Object valToCompare)
+    public <E extends IPerson> PredicateField<E> apply(Object valToCompare)
     {
         return new PredicateField<>(fieldName, (cb, val) -> consumer.apply(cb, val, valToCompare));
     }

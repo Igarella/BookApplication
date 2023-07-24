@@ -11,9 +11,9 @@
     <b>Книги:</b>
     <div th:each="book : ${books}">
         <a th:href="@{/books/{id}(id=${book.getId()})}"
-           style="color:green" th:if="${book.isOutOfDAte()==false}" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
+           style="color:green" th:if="${book.isOutOfDate()==false}" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
         <a th:href="@{/books/{id}(id=${book.getId()})}"
-           style="color:red" th:if="${book.isOutOfDAte()==true}" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
+           style="color:red" th:if="${book.isOutOfDate()==true}" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
 <!--        <div style="color:red" th:if="${book.isOutOfDAte()==true}" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></div>-->
 <!--        <div style="color:green" th:if="${book.isOutOfDAte()==false}" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></div>-->
     </div>

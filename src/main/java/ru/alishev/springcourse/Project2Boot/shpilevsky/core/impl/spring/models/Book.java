@@ -1,25 +1,21 @@
-package ru.alishev.springcourse.Project2Boot.models;
-
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.BaseEntity;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IPerson;
 
-
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "Book")
 @Data
-public class Book extends BaseEntity implements Serializable {
+public class Book extends ABaseEntity implements IBook
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -44,11 +40,11 @@ public class Book extends BaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date assignedAt;
 
-    @OneToMany(mappedBy = "book")
+    @ManyToMany(mappedBy = "book")
     private List<Author> authors;
 
     @Transient
-    private boolean isOutOfDAte;
+    private boolean isOutOfDate;
 
 
     public Book(String title, String author, int year) {
@@ -64,8 +60,8 @@ public class Book extends BaseEntity implements Serializable {
         return owner;
     }
 
-    public void setOwner(Person owner) {
-        this.owner = owner;
+    public void setOwner(IPerson owner) {
+        this.owner = (Person) owner;
     }
 
     public int getId() {
@@ -109,7 +105,7 @@ public class Book extends BaseEntity implements Serializable {
                 ", year=" + year +
 //                ", owner=" + owner +
                 ", assignedAt=" + assignedAt +
-                ", isOutOfDAte=" + isOutOfDAte +
+                ", isOutOfDAte=" + isOutOfDate +
                 '}';
     }
 }

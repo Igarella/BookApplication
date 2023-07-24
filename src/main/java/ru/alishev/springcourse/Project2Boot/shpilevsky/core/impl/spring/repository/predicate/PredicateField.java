@@ -1,11 +1,8 @@
-package ru.alishev.springcourse.Project2Boot.shpilevsky.lib;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Expression;
-
-import java.lang.reflect.Field;
-import java.util.Objects;
-import java.util.function.Predicate;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.fi.FunctionTTR;
 
 public class PredicateField<E> implements java.util.function.Predicate<E>
 {
