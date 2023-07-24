@@ -143,7 +143,7 @@ public class ControllerBook {
                 model.addAttribute("freeBook", searchBook);
             }
         } else {
-            model.addAttribute("emptyBook", book);
+
         }
         return "books/search";
     }

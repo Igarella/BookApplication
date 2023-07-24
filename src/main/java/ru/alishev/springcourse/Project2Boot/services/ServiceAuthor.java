@@ -12,12 +12,9 @@ import java.util.List;
 public class ServiceAuthor {
 
     private final IDataStorage<Author, Integer> repositoryAuthor;
-    private final IDataStorage<Book, Integer> repositoryBook;
 
-    public ServiceAuthor(IDataStorage<Author, Integer> repositoryAuthor,
-                         IDataStorage<Book, Integer> repositoryBook) {
+    public ServiceAuthor(IDataStorage<Author, Integer> repositoryAuthor) {
         this.repositoryAuthor = repositoryAuthor;
-        this.repositoryBook = repositoryBook;
     }
 
     public List<Author> findAll() {
