@@ -1,5 +1,4 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.core.installer;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Author;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IAuthor;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IPerson;

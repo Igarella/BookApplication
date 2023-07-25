@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformationSuppo
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.ABaseEntity;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.IDataStorage;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate.PredicateField;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate.PredicateTransformer;

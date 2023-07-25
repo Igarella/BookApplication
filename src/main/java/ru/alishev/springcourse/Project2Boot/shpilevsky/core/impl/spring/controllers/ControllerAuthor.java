@@ -1,12 +1,13 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.controllers;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.alishev.springcourse.Project2Boot.dto.AuthorDTO;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Author;
-import ru.alishev.springcourse.Project2Boot.services.ServiceAuthor;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions.CdtsAuthor;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServiceAuthorSpring;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IAuthor;
@@ -17,11 +18,10 @@ import java.util.List;
 @RequestMapping("/author")
 public class ControllerAuthor {
 
-
     private final ServiceAuthorSpring serviceAuthorSpring;
-
     private final ModelMapper modelMapper;
 
+    @Autowired
     public ControllerAuthor(ServiceAuthorSpring serviceAuthorSpring, ModelMapper modelMapper) {
         this.serviceAuthorSpring = serviceAuthorSpring;
         this.modelMapper = modelMapper;

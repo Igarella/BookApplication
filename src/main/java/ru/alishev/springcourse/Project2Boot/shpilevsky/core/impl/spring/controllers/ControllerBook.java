@@ -135,6 +135,19 @@ public class ControllerBook {
 
     @PostMapping("/search")
     public String searchBook(Model model, @ModelAttribute("book") Book book) {
+//        if (book.getAuthor() != null) {
+//            IBook searchBook = serviceBookSpring.findFirst(CdtsBook.ONE_BY_AUTHOR.apply(book.getAuthor()));
+//            if (searchBook != null) {
+//                if (searchBook.getOwner() != null) {
+//                    model.addAttribute("owner", searchBook);
+//                } else {
+//                    model.addAttribute("freeBook", searchBook);
+//                }
+//            } else {
+//                model.addAttribute("emptyBook", book);
+//            }
+//            return "books/search";
+//        }
         IBook searchBook = serviceBookSpring.findFirst(CdtsBook.ONE_BY_TITLE.apply(book.getTitle()));
         if (searchBook != null) {
             if (searchBook.getOwner() != null) {
@@ -143,7 +156,7 @@ public class ControllerBook {
                 model.addAttribute("freeBook", searchBook);
             }
         } else {
-
+            model.addAttribute("emptyBook", book);
         }
         return "books/search";
     }

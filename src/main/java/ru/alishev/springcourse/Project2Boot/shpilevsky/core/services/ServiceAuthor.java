@@ -1,10 +1,8 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.core.services;
 
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Author;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions.CdtsAuthor;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.installer.IInstaller;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IAuthor;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.IDataStorage;
 
 import java.util.List;
@@ -12,7 +10,11 @@ import java.util.function.Predicate;
 
 public class ServiceAuthor
 {
-    protected final IDataStorage<IAuthor, Integer> repositoryAuthor = IInstaller.get().repositoryAuthor();
+
+    protected IDataStorage<IAuthor, Integer> repositoryAuthor = IInstaller.get().repositoryAuthor();
+
+    public ServiceAuthor() {
+    }
 
     public List<IAuthor> findAll() {
         List<IAuthor> authors = repositoryAuthor.getAll();

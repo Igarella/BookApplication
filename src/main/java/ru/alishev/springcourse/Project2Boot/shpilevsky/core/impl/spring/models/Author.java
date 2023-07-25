@@ -2,7 +2,6 @@ package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IAuthor;
 
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.List;
 @Entity
 @Table(name = "author")
 @Data
-@NoArgsConstructor
 public class Author extends ABaseEntity implements IAuthor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,17 +32,32 @@ public class Author extends ABaseEntity implements IAuthor {
     }
 
     @Override
-    public List<Author> findAll() {
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+
+    }
+
+    @Override
+    public String getName() {
         return null;
     }
 
     @Override
-    public void createAuthor(Author author) {
+    public void setName(String name) {
 
     }
 
     @Override
-    public Author findOneById(int id) {
+    public List<Book> getBook() {
         return null;
+    }
+
+    @Override
+    public void setBook(List<Book> book) {
+
     }
 }

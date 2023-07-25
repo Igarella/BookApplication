@@ -6,7 +6,9 @@ import jakarta.persistence.PersistenceUnit;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServiceAuthorSpring;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServiceBookSpring;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServicePersonSpring;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.installer.IInstaller;
@@ -21,6 +23,7 @@ import java.io.Serializable;
 import java.util.function.Function;
 
 @Component
+@ComponentScan
 public class InstallerSpring extends IInstaller
 {
     @Bean
@@ -51,10 +54,13 @@ public class InstallerSpring extends IInstaller
     private ServicePersonSpring servicePersonSpring;
     @Autowired
     private ServiceBookSpring serviceBookSpring;
+    @Autowired
+    private ServiceAuthorSpring serviceAuthorSpring;
 
     @PostConstruct
     public void install()
     {
+        System.out.println("Installed");
     }
 
     private <E extends ABaseEntity, K extends Serializable> IDataStorage<E, K>

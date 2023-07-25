@@ -1,7 +1,5 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.general.models;
 
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
-
 import java.util.Date;
 
 public interface IBook {

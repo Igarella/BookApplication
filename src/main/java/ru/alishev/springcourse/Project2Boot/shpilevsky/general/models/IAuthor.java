@@ -1,16 +1,19 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.general.models;
 
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Author;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions.CdtsAuthor;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
 
 import java.util.List;
 
 public interface IAuthor {
+    int getId();
 
-    public List<Author> findAll();
+    void setId(int id);
 
-    public void createAuthor(Author author);
+    String getName();
 
-    public Author findOneById(int id);
+    void setName(String name);
 
+    List<Book> getBook();
+
+    void setBook(List<Book> book);
 }
