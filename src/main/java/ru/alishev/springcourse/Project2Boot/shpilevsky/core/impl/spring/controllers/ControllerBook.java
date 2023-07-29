@@ -66,8 +66,15 @@ public class ControllerBook {
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("book", serviceBookSpring.find(CdtsBook.ONE_BY_ID.apply(id)));
+    public String edit(Model model, @PathVariable("id") int id)
+    {
+        Book book = (Book)serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
+        if (book != null)
+        {
+            model.addAttribute("book", book);
+            model.addAttribute("authors", book.getAuthors());
+        }
+
         return "books/edit";
     }
 
@@ -108,6 +115,13 @@ public class ControllerBook {
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         serviceBookSpring.delete(CdtsBook.ONE_BY_ID.apply(id));
+        return "redirect:/books";
+    }
+
+    @DeleteMapping("/{id}/{authorName}")
+    public String deleteAuthor(@PathVariable("id") int id, @PathVariable("authorName") String authorName)
+    {
+        //serviceBookSpring.delete(CdtsBook.ONE_BY_ID.apply(id));
         return "redirect:/books";
     }
 

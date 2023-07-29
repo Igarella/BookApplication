@@ -8,7 +8,6 @@ import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.IDataStorage;
 public abstract class IInstaller
 {
     public abstract <E extends IPerson> IDataStorage<E, Integer> repositoryPerson();
-    public abstract <E extends IAuthor> IDataStorage<E, Integer> repositoryAuthor();
     public abstract <E extends IBook> IDataStorage<E, Integer> repositoryBook();
     public abstract void install();
 

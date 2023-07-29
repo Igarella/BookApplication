@@ -1,6 +1,7 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.general.models;
 
 import java.util.Date;
+import java.util.List;
 
 public interface IBook {
 
@@ -16,9 +17,10 @@ public interface IBook {
 
     void setTitle(String title);
 
-    String getAuthor();
+    String getAuthors();
+    List<String> getAuthorsAsList();
 
-    void setAuthor(String author);
+    void setAuthors(String authors);
 
     int getYear();
 

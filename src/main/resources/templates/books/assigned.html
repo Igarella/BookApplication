@@ -5,8 +5,8 @@
     <title>Assigned</title>
 </head>
 <body>
-<div style="color:red" th:if="${outOfDate.isOutOfDAte()==true}" th:text="${outOfDate.getTitle() + ', ' + outOfDate.getAuthor()}"></div>
-<div style="color:black" th:if="${outOfDate.isOutOfDAte()==false}" th:text="${outOfDate.getTitle() + ', ' + outOfDate.getAuthor()}"></div>
+<div style="color:red" th:if="${outOfDate.isOutOfDAte()==true}" th:text="${outOfDate.getTitle() + ', ' + outOfDate.getAuthors()}"></div>
+<div style="color:black" th:if="${outOfDate.isOutOfDAte()==false}" th:text="${outOfDate.getTitle() + ', ' + outOfDate.getAuthors()}"></div>
 <!--<td th:style="${outOfDate.isOutOfDAte() == true ? 'color: red;' : 'color: black;'}" th:text="${outOfDate.getTitle() + ', ' + outOfDate.getAuthor()}"></td>-->
 </body>
 </html>

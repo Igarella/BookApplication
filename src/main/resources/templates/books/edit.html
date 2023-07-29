@@ -11,9 +11,13 @@
     <input type="text" th:field="*{title}" id="title"/>
     <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</div>
     <br/>
+    <div th:each="author : ${authors}">
+        <a th:text="${author}">author</a>
+        <button type="button" onclick="deleteAuthor('${book.getId()}', '${author}')">-</button>
+    </div>
     <label for="author">Введите автора: </label>
-    <input type="text" th:field="*{author}" id="author"/>
-    <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author Error</div>
+    <input type="text" th:field="*{authors}" id="author"/>
+    <div style="color:red" th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}">Author Error</div>
     <br/>
     <label for="year">Введите год: </label>
     <input type="text" th:field="*{year}" id="year"/>
@@ -21,5 +25,28 @@
     <br/>
     <input type="submit" value="Редактировать!"/>
 </form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function deleteAuthor(bookId, author)
+    {
+        if (confirm("Вы действительно хотите удалить автора "+bookId+" "+author+"?"))
+        {
+            $.ajax({
+                url: "/books/" + bookId + "/" + encodeURIComponent(author),
+                type: "DELETE",
+                success: function (data)
+                {
+                    // Обработка успешного удаления
+                    location.reload(); // Обновление страницы после удаления (может быть изменено на более подходящую обработку)
+                },
+                error: function (xhr, status, error)
+                {
+                    // Обработка ошибки удаления
+                    console.error(error);
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>

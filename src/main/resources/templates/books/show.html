@@ -5,7 +5,7 @@
     <title>Show</title>
 </head>
 <body>
-<p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">VALUE</p>
+<p th:text="${book.getTitle() + ', ' + book.getAuthors() + ', ' + book.getYear()}">VALUE</p>
 <br/>
 
 <!--<form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">-->

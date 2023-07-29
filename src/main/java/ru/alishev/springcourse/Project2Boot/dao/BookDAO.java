@@ -29,12 +29,12 @@ public class BookDAO {
 
     public void save(Book book) {
         jdbcTemplate.update("INSERT INTO Book(title, author, year) VALUES(?, ?, ?)",
-                book.getTitle(), book.getAuthor(), book.getYear());
+                book.getTitle(), book.getAuthors(), book.getYear());
     }
 
     public void update(int id, Book updatedBook) {
         jdbcTemplate.update("UPDATE Book SET title=?, author=?, year=? WHERE id=?",
-                updatedBook.getTitle(), updatedBook.getAuthor(), updatedBook.getYear(), id);}
+                updatedBook.getTitle(), updatedBook.getAuthors(), updatedBook.getYear(), id);}
 
     public void delete(int id) {
         System.out.println("hello from delete");

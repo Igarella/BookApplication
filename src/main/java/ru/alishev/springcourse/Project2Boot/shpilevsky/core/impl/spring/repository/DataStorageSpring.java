@@ -139,7 +139,13 @@ public class DataStorageSpring<E extends ABaseEntity, K extends Serializable> im
     {
         Transaction transaction = session.beginTransaction();
         for (E e : entity)
-            session.saveOrUpdate(entity);
+        {
+            E exist = entityManager.find(entityClass, getKey(e));
+            if (exist != null)
+                session.merge(e);
+            else
+                session.saveOrUpdate(e);
+        }
         transaction.commit();
     }
 
@@ -147,7 +153,7 @@ public class DataStorageSpring<E extends ABaseEntity, K extends Serializable> im
     {
         Transaction transaction = session.beginTransaction();
         for (E e : entity)
-            session.delete(entity);
+            session.delete(e);
         transaction.commit();
     }
 

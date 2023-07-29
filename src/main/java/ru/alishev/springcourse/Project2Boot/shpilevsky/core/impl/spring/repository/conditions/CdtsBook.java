@@ -14,8 +14,8 @@ public enum CdtsBook {
     ALL_YEAR("year", (cb, val, valToCompare) -> cb.isNotNull(val)),
     ONE_BY_TITLE("title",
             (cb, val, valToCompare) -> cb.equal(val, valToCompare)),
-    ONE_BY_AUTHOR("author",
-            (cb, val, valToCompare) -> cb.equal(val, valToCompare)),
+    ONE_BY_AUTHOR("authors",
+            (cb, val, valToCompare) -> cb.like(val, "%"+valToCompare+"%")),
     MANY_STARTING_TITLE_WITH("title",
                         (cb, val, valToCompare) -> cb.like(val, valToCompare+"%"));
 
