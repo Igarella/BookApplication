@@ -5,8 +5,13 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.PriorityOrdered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServiceAuthorSpring;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServiceBookSpring;
@@ -23,7 +28,6 @@ import java.io.Serializable;
 import java.util.function.Function;
 
 @Component
-@ComponentScan
 public class InstallerSpring extends IInstaller
 {
     @Bean
@@ -50,13 +54,6 @@ public class InstallerSpring extends IInstaller
         return createDataStorage(Book.class, Book::getId);
     }
 
-    @Autowired
-    private ServicePersonSpring servicePersonSpring;
-    @Autowired
-    private ServiceBookSpring serviceBookSpring;
-    @Autowired
-    private ServiceAuthorSpring serviceAuthorSpring;
-
     @PostConstruct
     public void install()
     {
@@ -70,5 +67,4 @@ public class InstallerSpring extends IInstaller
         ds.init(clazz, keyFunction, entityManagerFactory);
         return ds;
     }
-
 }

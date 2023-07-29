@@ -10,7 +10,6 @@ import java.util.function.Predicate;
 
 public class ServiceAuthor
 {
-
     protected IDataStorage<IAuthor, Integer> repositoryAuthor = IInstaller.get().repositoryAuthor();
 
     public ServiceAuthor() {
