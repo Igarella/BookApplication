@@ -11,9 +11,9 @@
     <input type="text" th:field="*{title}" id="title"/>
     <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</div>
     <br/>
-    <label for="author">Введите автора: </label>
-    <input type="text" th:field="*{author}" id="author"/>
-    <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author Error</div>
+    <label for="authors">Введите автора: </label>
+    <input type="text" th:field="*{authors}" id="authors"/>
+    <div style="color:red" th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}">Authors Error</div>
     <br/>
     <label for="year">Введите год: </label>
     <input type="text" th:field="*{year}" id="year"/>

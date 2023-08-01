@@ -9,14 +9,20 @@
 <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
     <label for="title">Введите название книги: </label>
     <input type="text" th:field="*{title}" id="title"/>
+    <input type="hidden" th:field="*{id}" id="bookId" />
     <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</div>
     <br/>
     <div th:each="author : ${authors}">
         <a th:text="${author}">author</a>
-        <button type="button" onclick="deleteAuthor('${book.getId()}', '${author}')">-</button>
     </div>
     <label for="author">Введите автора: </label>
     <input type="text" th:field="*{authors}" id="author"/>
+    <br/>
+    <button type="button" onclick="deleteAuthor('${book.getId()}', '${author}')">Удалить автора</button>
+<!--    <input type="text" th:field="*{authors}" id="authorForDel"/>-->
+    <br/>
+    <button type="button" onclick="addAuthor('${book.getId()}', '${author}')">Добавить автора</button>
+<!--    <input type="text" th:field="*{authors}" id="authorForAdd"/>-->
     <div style="color:red" th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}">Author Error</div>
     <br/>
     <label for="year">Введите год: </label>
@@ -29,10 +35,12 @@
 <script>
     function deleteAuthor(bookId, author)
     {
-        if (confirm("Вы действительно хотите удалить автора "+bookId+" "+author+"?"))
+        author = $("#author").val();
+        bookId = $("#bookId").val();
+        if (confirm("Вы действительно хотите удалить автора " + author))
         {
             $.ajax({
-                url: "/books/" + bookId + "/" + encodeURIComponent(author),
+                url: "/books/" + bookId + "/" + author,
                 type: "DELETE",
                 success: function (data)
                 {
@@ -42,6 +50,28 @@
                 error: function (xhr, status, error)
                 {
                     // Обработка ошибки удаления
+                    console.error(error);
+                }
+            });
+        }
+    }
+</script>
+<script>
+    function addAuthor(bookId, author)
+    {
+        author = $("#author").val();
+        bookId = $("#bookId").val();
+        if (confirm("Вы действительно хотите добавить автора " + author)) {
+            $.ajax({
+                url: "/books/" + bookId + "/" + author,
+                type: "POST",
+                data: {author: author},
+                success: function (data) {
+                    // Обработка успешного добавления
+                    location.reload(); // Обновление страницы после добавления (может быть изменено на более подходящую обработку)
+                },
+                error: function (xhr, status, error) {
+                    // Обработка ошибки добавления
                     console.error(error);
                 }
             });

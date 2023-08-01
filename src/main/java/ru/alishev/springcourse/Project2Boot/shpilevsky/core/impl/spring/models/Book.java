@@ -25,8 +25,8 @@ public class Book extends ABaseEntity implements IBook
     @Size(min = 2, max = 30, message = "name should be between 2 and 20 characters")
     @Column(name = "title")
     private String title;
-    @NotEmpty(message = "автор не может быть пустым")
-    @Size(min = 2, max = 20, message = "имя автора должно быть между 2 и 10 символов")
+//    @NotEmpty(message = "автор не может быть пустым")
+//    @Size(min = 2, max = 20, message = "имя автора должно быть между 2 и 10 символов")
     @Column(name = "authors")
     private String authors;
     @Min(value = 1500, message = "year should be higher than 1500")

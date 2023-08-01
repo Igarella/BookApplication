@@ -85,7 +85,7 @@ public class ControllerBook {
             return "books/edit";
 
         serviceBookSpring.update(id, book);
-        return "redirect:/books";
+        return "redirect:/books/" + id;
     }
 
     @GetMapping("/new")
@@ -119,15 +119,39 @@ public class ControllerBook {
     }
 
     @DeleteMapping("/{id}/{authorName}")
-    public String deleteAuthor(@PathVariable("id") int id, @PathVariable("authorName") String authorName)
-    {
-        //serviceBookSpring.delete(CdtsBook.ONE_BY_ID.apply(id));
+    public String deleteAuthor(@PathVariable("id") int id, @PathVariable("authorName") String authorName) {
+        IBook iBook = serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
+        String authors = iBook.getAuthors();
+
+        if (authors.contains(authorName)) {
+            String result;
+
+            if (authors.contains(", " + authorName)) {
+                result = authors.replace(", " + authorName, "");
+            } else {
+                result = authors.replace(authorName + ",", "");
+            }
+
+            iBook.setAuthors(result);
+            serviceBookSpring.update(iBook.getId(), iBook);
+            System.out.println("everything is ok");
+        }
+
         return "redirect:/books";
     }
 
+
+    @PostMapping("{id}/{authorName}")
+    public String addAuthor(@PathVariable("id") int id, @PathVariable("authorName") String authorName) {
+        IBook book = serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
+        book.setAuthors(book.getAuthors() == null || book.getAuthors().isEmpty() ? book.getAuthors() + authorName : book.getAuthors() + ", " + authorName);
+        serviceBookSpring.save(book);
+        return "redirect:/books/" + id;
+    }
+
     @PatchMapping("/{id}/release")
-    public String release(@PathVariable("id") int id)
-    {
+    public String release(@PathVariable("id") int id) {
+
         IBook book = serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
         if (book != null)
             serviceBookSpring.release(book);
