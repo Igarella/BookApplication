@@ -1,6 +1,7 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.core.services;
 
 import org.springframework.data.domain.Sort;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions.CdtsBook;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.installer.IInstaller;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IPerson;
@@ -14,6 +15,32 @@ import java.util.function.Predicate;
 public class ServiceBook
 {
     protected final IDataStorage<IBook, Integer> repositoryBook = IInstaller.get().repositoryBook();
+
+    public void addAuthor(int id, String authorName) {
+        IBook book = findFirst(CdtsBook.ONE_BY_ID.apply(id));
+        book.setAuthors(book.getAuthors() == null || book.getAuthors().isEmpty() ? book.getAuthors() + authorName : book.getAuthors() + ", " + authorName);
+        save(book);
+    }
+
+    public void deleteAuthor(int id, String authorName) {
+        IBook iBook = findFirst(CdtsBook.ONE_BY_ID.apply(id));
+        String authors = iBook.getAuthors();
+
+        if (authors.contains(authorName)) {
+            String result;
+
+            if (authors.contains(", " + authorName)) {
+                result = authors.replace(", " + authorName, "");
+            } else {
+                result = authors.replace(authorName + ",", "");
+            }
+
+            iBook.setAuthors(result);
+            update(iBook.getId(), iBook);
+            System.out.println("everything is ok");
+        }
+
+    }
 
     public void delete(Predicate<IBook> condition)
     {

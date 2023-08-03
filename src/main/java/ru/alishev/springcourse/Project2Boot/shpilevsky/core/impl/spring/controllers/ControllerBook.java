@@ -120,32 +120,14 @@ public class ControllerBook {
 
     @DeleteMapping("/{id}/{authorName}")
     public String deleteAuthor(@PathVariable("id") int id, @PathVariable("authorName") String authorName) {
-        IBook iBook = serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
-        String authors = iBook.getAuthors();
-
-        if (authors.contains(authorName)) {
-            String result;
-
-            if (authors.contains(", " + authorName)) {
-                result = authors.replace(", " + authorName, "");
-            } else {
-                result = authors.replace(authorName + ",", "");
-            }
-
-            iBook.setAuthors(result);
-            serviceBookSpring.update(iBook.getId(), iBook);
-            System.out.println("everything is ok");
-        }
-
+        serviceBookSpring.deleteAuthor(id, authorName);
         return "redirect:/books";
     }
 
 
     @PostMapping("{id}/{authorName}")
     public String addAuthor(@PathVariable("id") int id, @PathVariable("authorName") String authorName) {
-        IBook book = serviceBookSpring.findFirst(CdtsBook.ONE_BY_ID.apply(id));
-        book.setAuthors(book.getAuthors() == null || book.getAuthors().isEmpty() ? book.getAuthors() + authorName : book.getAuthors() + ", " + authorName);
-        serviceBookSpring.save(book);
+        serviceBookSpring.addAuthor(id, authorName);
         return "redirect:/books/" + id;
     }
 
