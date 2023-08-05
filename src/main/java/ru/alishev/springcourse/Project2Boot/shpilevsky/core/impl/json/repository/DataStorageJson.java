@@ -45,12 +45,12 @@ public class DataStorageJson<E extends ABaseEntity, K extends Serializable> impl
 
     @Override
     public void add(E entity) {
-        save(entity);
+        saveOrUpdate(entity);
     }
 
     @Override
     public void add(List<E> entities) {
-        save((E[]) entities.toArray());
+        saveOrUpdate((E[]) entities.toArray());
     }
 
     @Override
@@ -109,11 +109,19 @@ public class DataStorageJson<E extends ABaseEntity, K extends Serializable> impl
 
     }
 
-    public <T> void save(E... entity) {
-        try {
-            objectMapper.writeValue(new File(filePath), entity);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void saveOrUpdate(E... entity) {
+        for (E e : entity) {
+            try {
+                objectMapper.writeValue(new File(filePath), e);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
+
+    }
+
+    public static void main(String[] args) {
+        DataStorageJson dataStorageJson = new DataStorageJson("/Users/igor/Downloads/BookApplication-main/src/main");
+        dataStorageJson.saveOrUpdate(new Book());
     }
 }

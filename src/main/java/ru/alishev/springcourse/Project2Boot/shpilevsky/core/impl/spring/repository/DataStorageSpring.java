@@ -15,9 +15,10 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformationSuppo
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.ABaseEntity;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.IDataStorage;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate.PredicateField;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate.PredicateTransformer;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.IDataStorage;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.SortType;
 
 import java.io.Serializable;
@@ -148,6 +149,9 @@ public class DataStorageSpring<E extends ABaseEntity, K extends Serializable> im
         }
         transaction.commit();
     }
+    private void saveOrUpdate(E... entity) {
+
+    }
 
     private void transactionDelete(E... entity)
     {
@@ -188,6 +192,8 @@ public class DataStorageSpring<E extends ABaseEntity, K extends Serializable> im
         return typedQuery.getResultList();
     }
 
+
+
     private Root<E> getRoot()
     {
         CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
@@ -200,5 +206,10 @@ public class DataStorageSpring<E extends ABaseEntity, K extends Serializable> im
         jakarta.persistence.criteria.Predicate predicate = predicateTransformer.transform(condition, getRoot());
         Specification<E> specification = (root, query, criteriaBuilder) -> predicate;
         return specification;
+    }
+
+    public static void main(String[] args) {
+        DataStorageSpring dataStorageSpring = new DataStorageSpring();
+        dataStorageSpring.saveOrUpdate(new Book());
     }
 }
