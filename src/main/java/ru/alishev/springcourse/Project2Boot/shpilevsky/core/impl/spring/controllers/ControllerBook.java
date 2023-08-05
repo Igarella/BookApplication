@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.json.services.ServiceBookJson;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Book;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.Person;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.services.ServiceBookSpring;
@@ -155,6 +156,7 @@ public class ControllerBook {
 
     @PostMapping("/search")
     public String searchBook(Model model, @ModelAttribute("book") Book book) {
+
 //        if (book.getAuthor() != null) {
 //            IBook searchBook = serviceBookSpring.findFirst(CdtsBook.ONE_BY_AUTHOR.apply(book.getAuthor()));
 //            if (searchBook != null) {

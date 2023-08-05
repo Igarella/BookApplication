@@ -9,8 +9,8 @@ import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.fi.FunctionTTTR;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate.PredicateField;
 
 public enum CdtsBook {
-    ONE_BY_ID("id", (cb, val, valToCompare) -> cb.equal(val, valToCompare)),
-    MANY_BY_OWNER("owner", (cb, val, valToCompare) -> cb.equal(val, valToCompare)),
+    ONE_BY_ID("id", CriteriaBuilder::equal),
+    MANY_BY_OWNER("owner", CriteriaBuilder::equal),
     ALL_YEAR("year", (cb, val, valToCompare) -> cb.isNotNull(val)),
     ONE_BY_TITLE("title",
             (cb, val, valToCompare) -> cb.equal(val, valToCompare)),

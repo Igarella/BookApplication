@@ -9,6 +9,7 @@ public abstract class IInstaller
 {
     public abstract <E extends IPerson> IDataStorage<E, Integer> repositoryPerson();
     public abstract <E extends IBook> IDataStorage<E, Integer> repositoryBook();
+//    public abstract <E extends
     public abstract void install();
 
     private static IInstaller INSTALLER = null;

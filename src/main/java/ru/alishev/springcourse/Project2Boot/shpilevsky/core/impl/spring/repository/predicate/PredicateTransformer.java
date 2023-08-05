@@ -1,8 +1,15 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.predicate;
 
+import com.sun.tools.javac.Main;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import org.hibernate.query.sqm.internal.SqmCriteriaNodeBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class PredicateTransformer
 {

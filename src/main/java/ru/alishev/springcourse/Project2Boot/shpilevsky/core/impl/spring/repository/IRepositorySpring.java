@@ -10,6 +10,5 @@ import java.io.Serializable;
 
 @NoRepositoryBean
 @Transactional
-public interface IRepositorySpring<E extends ABaseEntity, ID extends Serializable> extends JpaRepository<E, ID>,
-        JpaSpecificationExecutor<E> {
+public interface IRepositorySpring<E extends ABaseEntity, ID extends Serializable> extends JpaRepository<E, ID> {
 }
