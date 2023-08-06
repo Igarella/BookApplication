@@ -1,4 +1,4 @@
-package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.repository.conditions;
+package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.json.repository.conditions;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Expression;
@@ -7,7 +7,7 @@ import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.reposito
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.lib.fi.FunctionTTTR;
 
-public enum CdtsBook {
+public enum CdtsBookJSon {
     ONE_BY_ID("id", CriteriaBuilder::equal),
     MANY_BY_OWNER("owner", (cb, val, valToCompare)-> cb.equal(val, null)),
     ALL_YEAR("year", (cb, val, valToCompare) -> cb.isNotNull(val)),
@@ -31,7 +31,7 @@ public enum CdtsBook {
         return new PredicateField<>(fieldName, (cb, val) -> consumer.apply(cb, val, valToCompare));
     }
 
-    CdtsBook(String fieldName, FunctionTTTR<CriteriaBuilder, Expression, Object, Predicate> consumer)
+    CdtsBookJSon(String fieldName, FunctionTTTR<CriteriaBuilder, Expression, Object, Predicate> consumer)
     {
         this.fieldName = fieldName;
         this.consumer = consumer;

@@ -1,11 +1,12 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.json.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.spring.models.ABaseEntity;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IBook;
 import ru.alishev.springcourse.Project2Boot.shpilevsky.general.models.IPerson;
 
@@ -44,12 +45,12 @@ public class Book extends ABaseEntity implements IBook
     private boolean isOutOfDate;
 
 
-    public Book(String title, String authors, int year) {
+    public Book(@JsonProperty("arg1")String title, @JsonProperty("arg2")String authors, @JsonProperty("arg3")int year) {
         this.title = title;
         this.authors = authors;
         this.year = year;
     }
-
+    @JsonCreator
     public Book() {
     }
 
@@ -84,7 +85,11 @@ public class Book extends ABaseEntity implements IBook
     @Override
     public List<String> getAuthorsAsList()
     {
-        return new ArrayList<>(List.of(this.authors.split(",")));
+        if (this.authors != null) {
+            return new ArrayList<>(List.of(this.authors.split(",")));
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public void setAuthors(String authors) {

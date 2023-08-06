@@ -1,6 +1,8 @@
 package ru.alishev.springcourse.Project2Boot.shpilevsky.core.impl.json.models;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -28,11 +30,13 @@ public class Person extends ABaseEntity implements IPerson
     @Column(name = "year")
     private int birthDate;
 
+    @JsonCreator
     public Person() {
 
     }
 
-    public Person(String fullName, int birthDate) {
+    @JsonCreator
+    public Person(@JsonProperty("arg1")String fullName, @JsonProperty("arg2")int birthDate) {
         this.fullName = fullName;
         this.birthDate = birthDate;
     }

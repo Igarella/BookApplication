@@ -158,7 +158,7 @@ public class ControllerBook {
     public String searchBook(Model model, @ModelAttribute("book") Book book) {
 
 //        if (book.getAuthor() != null) {
-//            IBook searchBook = serviceBookSpring.findFirst(CdtsBook.ONE_BY_AUTHOR.apply(book.getAuthor()));
+//            IBook searchBook = serviceBookSpring.findFirst(CdtsBookJSon.ONE_BY_AUTHOR.apply(book.getAuthor()));
 //            if (searchBook != null) {
 //                if (searchBook.getOwner() != null) {
 //                    model.addAttribute("owner", searchBook);
